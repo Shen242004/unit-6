@@ -1,0 +1,29 @@
+def solve_n_queens_generalized(N, obstacles=[], restricted=[]):
+    def is_safe(board, row, col):
+        for i in range(row):
+            if board[i] == col or board[i] - i == col - row or board[i] + i == col + row:
+                return False
+        return all((row, col) != (r, c) for r, c in obstacles)
+
+    def n_queens(board, row):
+        if row == N:
+            return board
+        for col in range(N):
+            if all((row, col) != (r, c) for r, c in restricted) and is_safe(board, row, col):
+                board[row] = col
+                result = n_queens(board, row + 1)
+                if result:
+                    return result
+        return None
+
+    board = [-1] * N
+    return n_queens(board, 0)
+
+# 8x10 Board Example
+print(solve_n_queens_generalized(8, restricted=[(1, 3), (3, 5), (5, 7), (7, 9), (0, 2), (2, 4), (4, 6), (6, 8)]))
+
+# 5x5 Board with Obstacles Example
+print(solve_n_queens_generalized(5, obstacles=[(1, 1), (3, 3)]))
+
+# 6x6 Board with Restricted Positions Example
+print(solve_n_queens_generalized(6, restricted=[(0, 2), (0, 4)]))
