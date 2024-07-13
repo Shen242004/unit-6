@@ -1,0 +1,40 @@
+def graph_coloring(edges, n, k):
+    graph = {}
+    colors = {}
+    
+    for u, v in edges:
+        if u not in graph:
+            graph[u] = []
+        if v not in graph:
+            graph[v] = []
+        graph[u].append(v)
+        graph[v].append(u)
+    
+    def is_safe(node, color):
+        for neighbor in graph[node]:
+            if colors.get(neighbor) == color:
+                return False
+        return True
+    
+    def color_graph(node, color):
+        if node == n:
+            return True
+        for c in range(1, k+1):
+            if is_safe(node, c):
+                colors[node] = c
+                if color_graph(node + 1, color):
+                    return True
+                colors[node] = None
+        return False
+    
+    color_graph(0, k)
+    
+    max_regions_colored = len(set(colors.values()))
+    return max_regions_colored
+
+# Example Usage
+edges = [(0, 1), (1, 2), (2, 3), (3, 0), (0, 2)]
+n = 4
+k = 3
+max_regions = graph_coloring(edges, n, k)
+print(f"Maximum number of regions colored: {max_regions}")
