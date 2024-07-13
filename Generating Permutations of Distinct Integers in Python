@@ -1,0 +1,13 @@
+from itertools import permutations
+
+def permute(nums):
+    return list(permutations(nums))
+
+# Test cases
+nums1 = [1, 2, 3]
+nums2 = [0, 1]
+nums3 = [1]
+
+print(permute(nums1))
+print(permute(nums2))
+print(permute(nums3))
