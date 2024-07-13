@@ -1,0 +1,27 @@
+def graph_coloring(adjacency_list):
+    colors = {}
+    colored_regions = 0
+
+    for region in adjacency_list:
+        available_colors = set(colors.get(neighbour) for neighbour in adjacency_list[region] if neighbour in colors)
+
+        if None in available_colors:
+            colors[region] = available_colors.pop()
+        else:
+            colors[region] = len(colors)
+        
+        colored_regions += 1
+
+    return colored_regions
+
+# Example adjacency list representation of the map
+adjacency_list = {
+    0: [1, 3, 2],
+    1: [0, 2],
+    2: [1, 0],
+    3: [0]
+}
+
+# Calculate the maximum number of regions that can be colored
+max_regions_colored = graph_coloring(adjacency_list)
+print(f"Maximum number of regions colored: {max_regions_colored}")
